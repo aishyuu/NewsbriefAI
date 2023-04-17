@@ -3,6 +3,9 @@ from flask import jsonify
 from flask_cors import CORS
 from newspaper import Article
 from newspaper import fulltext
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
