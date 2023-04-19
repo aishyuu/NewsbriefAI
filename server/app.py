@@ -11,18 +11,27 @@ openai.api_key = os.environ['OPENAI_API_KEY']
 app = Flask(__name__)
 CORS(app)
 
+def news_text_validation(news_text : str):
+	if len(news_text) > 8147:
+		char_over = news_text - 8147
+		return news_text[char_over::]
+	else:
+		return news_text
+
+			
+
 @app.route('/api/query', methods=['POST'], strict_slashes=False)
-def testing():
+def query():
 	news_link = request.json
 	article = Article(news_link)
 	article.download()
 	article.parse()
-	article_text = article.text
+	article_text = news_text_validation(article.text)
 
 	ai_response = openai.Completion.create(
 		model="text-davinci-003",
-		prompt="Say this is a test",
-		max_tokens=7,
+		prompt=f"Summarize the following news article: `{article_text}`",
+		max_tokens=2048,
 		temperature=0
 	)
 	

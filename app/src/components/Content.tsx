@@ -18,7 +18,7 @@ export default function Content() {
         ).then(
             data => {
                 console.log(data)
-                setNewsText(data['Response'])
+                setNewsText(data['ai_response'])
             }
         )
     }
